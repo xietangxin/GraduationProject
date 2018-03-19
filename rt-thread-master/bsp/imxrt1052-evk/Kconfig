@@ -1,0 +1,37 @@
+mainmenu "RT-Thread Configuration"
+
+config $BSP_DIR
+    string
+    option env="BSP_ROOT"
+    default "."
+
+config $RTT_DIR
+    string
+    option env="RTT_ROOT"
+    default "../.."
+
+config $PKGS_DIR
+    string
+    option env="PKGS_ROOT"
+    default "packages"
+
+source "$RTT_DIR/Kconfig"
+source "$PKGS_DIR/Kconfig"
+
+config SOC_IMXRT1052
+    bool 
+    select ARCH_ARM_CORTEX_M7
+    default y
+
+if RT_USING_SERIAL
+config RT_USING_UART1
+    bool "Using RT_USING_UART1"
+    default y 
+endif
+
+if RT_USING_RTC
+config RT_USING_HP_RTC
+    bool "Using RT_USING_HP_RTC"
+    default n 
+endif
+
