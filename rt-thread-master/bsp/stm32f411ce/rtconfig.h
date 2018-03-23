@@ -47,7 +47,7 @@
 /* RT_USING_INTERRUPT_INFO is not set */
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
-#define RT_CONSOLE_DEVICE_NAME "uart6"
+#define RT_CONSOLE_DEVICE_NAME "uart1"
 /* RT_USING_MODULE is not set */
 
 /* RT-Thread Components */
@@ -319,8 +319,8 @@
 /* RT_USING_HSI is not set */
 #define RT_HSE_VALUE 8000000
 #define RT_HSE_HCLK 168000000
-/* RT_USING_UART1 is not set */
+#define RT_USING_UART1
 #define RT_USING_UART2
-#define RT_USING_UART6
+/* RT_USING_UART6 is not set */
 
 #endif
