@@ -26,9 +26,9 @@
 #define RT_USING_SEMAPHORE
 #define RT_USING_MUTEX
 #define RT_USING_EVENT
-#define RT_USING_MAILBOX
+/* RT_USING_MAILBOX is not set */
 #define RT_USING_MESSAGEQUEUE
-/* RT_USING_SIGNALS is not set */
+#define RT_USING_SIGNALS
 
 /* Memory Management */
 
@@ -87,20 +87,25 @@
 /* RT_USING_CAN is not set */
 /* RT_USING_HWTIMER is not set */
 /* RT_USING_CPUTIME is not set */
-/* RT_USING_I2C is not set */
+#define RT_USING_I2C
+#define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
 /* RT_USING_MTD_NOR is not set */
 /* RT_USING_MTD_NAND is not set */
 /* RT_USING_RTC is not set */
 /* RT_USING_SDIO is not set */
 /* RT_USING_SPI is not set */
-/* RT_USING_WDT is not set */
+#define RT_USING_WDT
 /* RT_USING_WIFI is not set */
 
 /* Using USB */
 
 /* RT_USING_USB_HOST is not set */
 /* RT_USING_USB_DEVICE is not set */
+/* _RT_USB_DEVICE_CDC is not set */
+/* _RT_USB_DEVICE_MSTORAGE is not set */
+/* _RT_USB_DEVICE_HID is not set */
+/* _RT_USB_DEVICE_WINUSB is not set */
 
 /* POSIX layer and C standard library */
 
@@ -124,7 +129,15 @@
 
 /* Utilities */
 
-/* RT_USING_LOGTRACE is not set */
+#define RT_USING_LOGTRACE
+#define LOG_TRACE_MAX_SESSION 16
+/* LOG_TRACE_USING_LEVEL_NOTRACE is not set */
+/* LOG_TRACE_USING_LEVEL_ERROR is not set */
+/* LOG_TRACE_USING_LEVEL_WARNING is not set */
+#define LOG_TRACE_USING_LEVEL_INFO
+/* LOG_TRACE_USING_LEVEL_VERBOSE is not set */
+/* LOG_TRACE_USING_LEVEL_DEBUG is not set */
+/* LOG_TRACE_USING_MEMLOG is not set */
 /* RT_USING_RYM is not set */
 
 /* RT-Thread online packages */
