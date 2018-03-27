@@ -31,6 +31,68 @@
 #include <rthw.h>
 #include <rtthread.h>
 
+#include "stm32f4xx_hal.h"
+
+/*  ÅäÖÃ´®¿ÚDMA*/
+void uartslkDmaInit(void)
+{
+	//NVIC_InitTypeDef NVIC_InitStructure;
+	DMA_HandleTypeDef DMA_HandleTypeStruct;
+	DMA_InitTypeDef DMA_InitStruct;
+	
+	__HAL_RCC_DMA1_CLK_ENABLE();
+	//RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);	
+
+	/* USART TX DMA Í¨µÀÅäÖÃ*/
+	DMA_InitStruct.Channel = DMA_CHANNEL_4;
+	DMA_InitStruct.Direction = DMA_PERIPH_TO_MEMORY;
+	DMA_InitStruct.FIFOMode = DMA_FIFOMODE_DISABLE;
+	DMA_InitStruct.FIFOThreshold = DMA_FIFO_THRESHOLD_1QUARTERFULL;
+	DMA_InitStruct.MemBurst = DMA_MBURST_SINGLE;
+	DMA_InitStruct.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+	DMA_InitStruct.MemInc = DMA_MINC_ENABLE;
+	DMA_InitStruct.Mode = DMA_NORMAL;
+	DMA_InitStruct.PeriphBurst = DMA_PBURST_SINGLE;
+	DMA_InitStruct.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+	DMA_InitStruct.PeriphInc = DMA_PINC_ENABLE;
+	DMA_InitStruct.Priority = DMA_PRIORITY_HIGH;
+	
+	DMA_HandleTypeStruct.Init = DMA_InitStruct;
+	DMA_HandleTypeStruct.Instance = DMA1_Stream6;
+	DMA_HandleTypeStruct.StreamIndex = 6;
+	DMA_HandleTypeStruct.StreamBaseAddress = DMA2_Stream6_BASE;
+	
+	HAL_DMA_Init(&DMA_HandleTypeStruct);
+	
+	
+
+	
+	
+//	DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&UARTSLK_TYPE->DR;
+//	DMA_InitStructure.DMA_Memory0BaseAddr = (u32)dmaBuffer;
+//	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+//	DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+//	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+//	DMA_InitStructure.DMA_BufferSize = 0;
+//	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+//	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+//	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+//	DMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral;
+//	DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+//	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+//	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
+//	DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull ;
+//	DMA_InitStructure.DMA_Channel = UARTSLK_DMA_CH;
+
+//	NVIC_InitStructure.NVIC_IRQChannel = UARTSLK_DMA_IRQ;
+//	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 7;
+//	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+//	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//	NVIC_Init(&NVIC_InitStructure);
+
+//	isUartDmaInitialized = true;
+}
+
 /* STM32 uart driver */
 struct drv_uart
 {
@@ -286,12 +348,27 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     PA2     ------> USART2_TX
     PA3     ------> USART2_RX 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
+    GPIO_InitStruct.Pin = GPIO_PIN_3 | GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		
+		HAL_NVIC_SetPriority(USART2_IRQn, 7, 0);
+		HAL_NVIC_EnableIRQ(USART2_IRQn);
+		
+		//__HAL_UART_ENABLE_IT(UART2, UART_IT_RXNE);
+		
+		
+		
+		
+		
+		
+		
+
+		
+		
   }
   else if(uartHandle->Instance==USART6)
   {
@@ -308,6 +385,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF8_USART6;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+		
+		
   }
 }
 
