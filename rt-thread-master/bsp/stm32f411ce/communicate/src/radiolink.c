@@ -1,8 +1,7 @@
 #include <string.h>
-#include "config.h"
 #include "radiolink.h"
 #include "config_param.h"
-#include "led.h"
+#include "drv_led.h"
 #include "ledseq.h"
 #include "uart_syslink.h"
 

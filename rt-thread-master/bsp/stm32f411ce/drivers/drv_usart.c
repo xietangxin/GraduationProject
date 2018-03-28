@@ -355,10 +355,28 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 		
+		// 设置UART2中断
 		HAL_NVIC_SetPriority(USART2_IRQn, 7, 0);
 		HAL_NVIC_EnableIRQ(USART2_IRQn);
 		
-		//__HAL_UART_ENABLE_IT(UART2, UART_IT_RXNE);
+		/* 串口接受数据寄存器非空中断*/
+		__HAL_UART_ENABLE_IT(uartHandle, UART_IT_RXNE);
+		
+		rt_memset(&GPIO_InitStruct, 0, sizeof(GPIO_InitStruct));
+		
+		/* PA0 外部中断配置*/
+		GPIO_InitStruct.Pin = GPIO_PIN_0;
+		/*  HAL库中没有EXTI的初始化结构体函数，将EXTI的初始化归纳到GPIO_InitTypeDef的Mode中*/
+		GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+		GPIO_InitStruct.Pull = GPIO_PULLUP;
+		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		
+		HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
+		HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+		
+		
+		
+		
 		
 		
 		
