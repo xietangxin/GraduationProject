@@ -88,7 +88,7 @@ void STMFLASH_Write(uint32_t WriteAddr,uint32_t *pBuffer,uint32_t NumToWrite)
 		} 
 	}
 	FlashStatus =  FLASH_WaitForLastOperation(FLASH_WAITETIME);
-	if(FlashStatus==FLASH_COMPLETE)
+	if(FlashStatus == HAL_OK )
 	{
 		while(WriteAddr<endaddr)//Ð´Êý¾Ý
 		{

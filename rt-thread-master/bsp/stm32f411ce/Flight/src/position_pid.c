@@ -4,18 +4,7 @@
 #include "config_param.h"
 #include "position_pid.h"
 #include "remoter_ctrl.h"
-/********************************************************************************	 
- * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
- * ALIENTEK MiniFly
- * 位置PID控制代码	
- * 正点原子@ALIENTEK
- * 技术论坛:www.openedv.com
- * 创建日期:2017/5/2
- * 版本：V1.0
- * 版权所有，盗版必究。
- * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
- * All rights reserved
-********************************************************************************/
+/* 位置PID控制代码	*/
 
 #define THRUST_SCALE	(100.0f)
 #define START_HIRHT		(0.0f)
@@ -34,7 +23,7 @@ typedef struct
 	pidAxis_t pidVX;
 	pidAxis_t pidVY;
 	pidAxis_t pidVZ;
-	u16 thrustBase; 
+	uint16_t thrustBase; 
 }posPid_t;
 
 static posPid_t posPid;
@@ -81,7 +70,7 @@ static float runPidZ(pidAxis_t *axis, float input, const setpoint_t *setpoint, f
 
 static void detecWeight(float thrust, float newThrust, float velocity)
 {	
-	static u16 cnt = 0;
+	static uint16_t cnt = 0;
 	static float sum = 0.0;
 	static float detaThrust;
 	

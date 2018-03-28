@@ -4,7 +4,6 @@
 #include <stdbool.h>
 
 #include "stm32f4xx.h"
-#include "config_param.h"
 #include "watchdog.h"
 
 /* ÅäÖÃ²ÎÊı´úÂë	 */
@@ -14,7 +13,8 @@ typedef struct
 	float kp;
 	float ki;
 	float kd;
-} pidInit_t;
+}pidInit_t;
+
 
 typedef struct
 {

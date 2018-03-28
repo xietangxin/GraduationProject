@@ -1,28 +1,15 @@
-#include "sys.h"
-#include "delay.h"
 #include "motors.h"
 #include "pm.h"
 
-/********************************************************************************	 
- * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
- * ALIENTEK MiniFly
- * 电机驱动代码	
- * 正点原子@ALIENTEK
- * 技术论坛:www.openedv.com
- * 创建日期:2017/5/2
- * 版本：V1.0
- * 版权所有，盗版必究。
- * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
- * All rights reserved
-********************************************************************************/
+/* 电机驱动代码	*/
 
 
 static bool isInit = false;
-u32 motor_ratios[] = {0, 0, 0, 0};
-const u32 MOTORS[] = { MOTOR_M1, MOTOR_M2, MOTOR_M3, MOTOR_M4 };
+uint32_t motor_ratios[] = {0, 0, 0, 0};
+const uint32_t MOTORS[] = { MOTOR_M1, MOTOR_M2, MOTOR_M3, MOTOR_M4 };
 
 
-static u16 ratioToCCRx(u16 val)
+static uint16_t ratioToCCRx(uint16_t val)
 {
 	return ((val) >> (16 - MOTORS_PWM_BITS) & ((1 << MOTORS_PWM_BITS) - 1));
 }

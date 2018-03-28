@@ -234,7 +234,7 @@ void flyerFlipCheck(setpoint_t* setpoint, control_t* control, state_t* state, co
 
 
 //ÉèÖÃ·­¹ö·½Ïò
-void setFlipDir(u8 dir)
+void setFlipDir(uint8_t dir)
 {
 	flipDir = (enum dir_e)dir;	
 }

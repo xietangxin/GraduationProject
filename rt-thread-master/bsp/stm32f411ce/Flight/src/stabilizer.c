@@ -8,6 +8,7 @@
 #include "power_control.h"
 #include "flip.h"
 
+#include <rtthread.h>
 ///*FreeRTOS相关头文件*/
 //#include "FreeRTOS.h"
 //#include "task.h"

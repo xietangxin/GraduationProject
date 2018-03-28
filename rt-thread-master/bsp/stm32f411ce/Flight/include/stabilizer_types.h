@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#include "stm32f4xx.h"
 #include "sensors_types.h"
 
 /* 结构体类型定义	 */
@@ -13,7 +14,7 @@
 
 typedef struct  
 {
-	u32 timestamp;	/*时间戳*/
+	uint32_t timestamp;	/*时间戳*/
 
 	float roll;
 	float pitch;
@@ -22,7 +23,7 @@ typedef struct
 
 struct  vec3_s 
 {
-	u32 timestamp;	/*时间戳*/
+	uint32_t timestamp;	/*时间戳*/
 
 	float x;
 	float y;
@@ -59,9 +60,9 @@ typedef struct quaternion_s
 
 typedef struct toaMeasurement_s 
 {
-	int8_t senderId;
+	uint8_t senderId;
 	float x, y, z;
-	int64_t rx, tx;
+	uint64_t rx, tx;
 } toaMeasurement_t;
 
 typedef struct tdoaMeasurement_s {
@@ -182,7 +183,7 @@ typedef enum
 	modeDisable = 0,
 	modeAbs,
 	modeVelocity
-} mode_t;
+}mode_t;
 
 typedef struct
 {

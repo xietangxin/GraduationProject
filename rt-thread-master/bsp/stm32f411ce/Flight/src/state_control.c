@@ -78,7 +78,7 @@ void stateControl(control_t *control, sensorData_t *sensors, state_t *state, set
 	#endif
 	}
 
-	control->thrust = (u16)actualThrust;	
+	control->thrust = (uint16_t)actualThrust;	
 
 	if (control->thrust == 0)
 	{			

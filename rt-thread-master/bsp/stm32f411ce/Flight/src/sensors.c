@@ -10,9 +10,9 @@
 #include "bmp280.h"
 #include "filter.h"
 
-/*FreeRTOS相关头文件*/
-#include "FreeRTOS.h"
-#include "task.h"
+///*FreeRTOS相关头文件*/
+//#include "FreeRTOS.h"
+//#include "task.h"
 
 /* 传感器控制代码	 */
 

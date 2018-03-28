@@ -91,18 +91,20 @@ void flightCtrldataCache(ctrlSrc_e ctrlSrc, ctrlVal_t pk)
 		case ATK_REMOTER:
 			remoteCache.tarVal[!remoteCache.activeSide] = pk;
 			remoteCache.activeSide = !remoteCache.activeSide;
-			remoteCache.timestamp = getSysTickCnt();
+			remoteCache.timestamp = rt_tick_get();
+			//remoteCache.timestamp = getSysTickCnt();
 			break;
 		
 		case WIFI:
 			wifiCache.tarVal[!remoteCache.activeSide] = pk;
 			wifiCache.activeSide = !remoteCache.activeSide;
-			wifiCache.timestamp = getSysTickCnt();
+			remoteCache.timestamp = rt_tick_get();
+			//wifiCache.timestamp = getSysTickCnt();
 			break;
 	}
 }
 
-static u8 count=0;
+static uint8_t count=0;
 static float autoLandSpeed=-0.25;
 /********************************************************
 * flyerAutoLand()
@@ -111,7 +113,7 @@ static float autoLandSpeed=-0.25;
 void flyerAutoLand(setpoint_t *setpoint,const state_t *state)
 {
 	float velocityZ=state->acc.z;	/*垂直方向速度*/
-	static u16 cnt1=0,cnt2=0;
+	static uint16_t cnt1=0,cnt2=0;
 	static float lastVel=0.0;
 	static bool flag=false;
 	static bool highLow=true;

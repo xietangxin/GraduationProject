@@ -9,7 +9,7 @@
 //#define watchdogReset() (IWDG_ReloadCounter())
 
 
-void watchdogInit(uint16_t xms)
+void watchdogInit(uint16_t xms);
 bool watchdogTest(void);
 
 

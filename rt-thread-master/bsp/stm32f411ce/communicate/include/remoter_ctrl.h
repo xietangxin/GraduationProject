@@ -3,7 +3,7 @@
 
 
 #include "atkp.h"
-#include "module_detect.h"
+//#include "module_detect.h" // 扩展模块检测驱动代码
 
 /* 遥控器控制驱动代码 */
 
@@ -47,7 +47,7 @@ typedef __packed struct
 	bool baro_slfTest;
 	bool isCanFly;
 	bool isLowpower;
-	enum expModuleID moduleID;
+//	enum expModuleID moduleID;
 } MiniFlyMsg_t;
 
 

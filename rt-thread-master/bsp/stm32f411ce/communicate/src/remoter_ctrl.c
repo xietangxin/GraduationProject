@@ -8,7 +8,7 @@
 #include "sensors.h"
 #include "pm.h"
 #include "stabilizer.h"
-#include "module_mgt.h"
+//#include "module_mgt.h" //扩展模块驱动管理代码
 #include "ledring12.h"
 
 /*FreeRTOS相关头文件*/
@@ -39,7 +39,7 @@ void sendMsgACK(void)
 	msg.baro_slfTest = getIsBaroPresent();
 	msg.isCanFly = getIsCalibPass();
 	msg.isLowpower = getIsLowpower();
-	msg.moduleID = getModuleID();
+//	msg.moduleID = getModuleID(); // 扩展模块ID
 	
 	atkp_t p;
 	p.msgID = UP_REMOTER;
