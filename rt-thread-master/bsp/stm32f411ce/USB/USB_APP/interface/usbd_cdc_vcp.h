@@ -50,7 +50,7 @@ typedef struct
 }LINE_CODING;
 
 void usbd_cdc_vcp_Init(void);
-void usbsendData(uint8_t * data, uint16_t length);
+void usbsendData(uint8_t* data, uint16_t length);
 bool usbGetDataWithTimout(uint8_t *c);
 
 #endif /* __USBD_CDC_VCP_H */

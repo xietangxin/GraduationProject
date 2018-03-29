@@ -57,6 +57,7 @@ void resetConfigParamPID(void);
 #define CONFIG_PARAM_ADDR 	(FLASH_BASE + BOOTLOADER_SIZE)	/*16K bootloader*/
 #define FIRMWARE_START_ADDR (FLASH_BASE + BOOTLOADER_SIZE + CONFIG_PARAM_SIZE)	/*16K bootloader+ 16 模拟eeprom*/
 
+#define MAX_DELAY	0xffffffffUL
 
 #define DEG2RAD		0.017453293f	/* 度转弧度 π/180 */
 #define RAD2DEG		57.29578f		/* 弧度转度 180/π */

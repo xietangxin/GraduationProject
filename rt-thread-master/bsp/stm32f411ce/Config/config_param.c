@@ -16,6 +16,8 @@
 /* 配置参数驱动代码	*/
 
 
+
+
 #define VERSION 11	/*11 表示V1.1*/
 
 configParam_t configParam;

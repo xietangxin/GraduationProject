@@ -8,25 +8,16 @@
 #include "sensors.h"
 #include "pm.h"
 #include "stabilizer.h"
+
+
 //#include "module_mgt.h" //扩展模块驱动管理代码
-#include "ledring12.h"
+//#include "ledring12.h"
 
-/*FreeRTOS相关头文件*/
-#include "FreeRTOS.h"
-#include "task.h"
+///*FreeRTOS相关头文件*/
+//#include "FreeRTOS.h"
+//#include "task.h"
 
-/********************************************************************************	 
- * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
- * ALIENTEK MiniFly
- * 遥控器控制驱动代码	
- * 正点原子@ALIENTEK
- * 技术论坛:www.openedv.com
- * 创建日期:2017/5/2
- * 版本：V1.0
- * 版权所有，盗版必究。
- * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
- * All rights reserved
-********************************************************************************/
+/* 遥控器控制驱动代码	*/
 
 static ctrlVal_t remoterCtrl;/*发送到commander姿态控制数据*/
 static MiniFlyMsg_t msg;
@@ -83,12 +74,12 @@ void remoterCtrlProcess(atkp_t* pk)
 				break;
 			
 			case CMD_POWER_MODULE:
-				expModulePower(pk->data[2]);
+				//expModulePower(pk->data[2]);
 				break;
 			
 			case CMD_LEDRING_EFFECT:
-				expModulePower(true);
-				setLedringEffect(pk->data[2]);
+			//	expModulePower(true);
+			//	setLedringEffect(pk->data[2]);
 				break;
 		}
 	}

@@ -183,7 +183,7 @@ typedef enum
 	modeDisable = 0,
 	modeAbs,
 	modeVelocity
-}mode_t;
+}mode;
 
 typedef struct
 {

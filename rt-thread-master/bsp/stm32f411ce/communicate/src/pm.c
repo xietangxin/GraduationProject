@@ -47,7 +47,7 @@ static bool isInit;
 static bool isLowpower;
 static PMStates pmState;
 static PmSyslinkInfo pmSyslinkInfo;
-static u32 batteryLowTimeStamp;
+static uint32_t batteryLowTimeStamp;
 
 static void pmSetBatteryVoltage(float voltage);
 
@@ -98,7 +98,7 @@ PMStates pmUpdateState()	/* 更新电源状态 */
 	PMStates state;
 	bool isCharging = pmSyslinkInfo.chg;
 	bool isPgood = pmSyslinkInfo.pgood;
-	u32 batteryLowTime;
+	uint32_t batteryLowTime;
 
 	batteryLowTime = rt_tick_get() - batteryLowTimeStamp;
 	//batteryLowTime = getSysTickCnt() - batteryLowTimeStamp;
@@ -123,7 +123,7 @@ PMStates pmUpdateState()	/* 更新电源状态 */
 void pmTask(void *param)	/* 电源管理任务 */
 {
 	PMStates pmStateOld = battery;
-	u32 tickCount;
+	uint32_t tickCount;
 
 	tickCount = rt_tick_get();
 	//tickCount = getSysTickCnt();
@@ -134,7 +134,7 @@ void pmTask(void *param)	/* 电源管理任务 */
 
 	while(1)
 	{
-		rt_thread_delay(100)；
+		rt_thread_delay(100);
 		tickCount = rt_tick_get();
 		//vTaskDelay(100);
 		//tickCount = getSysTickCnt();

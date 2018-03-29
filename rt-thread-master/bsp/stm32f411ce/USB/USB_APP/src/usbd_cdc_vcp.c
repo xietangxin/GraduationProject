@@ -29,6 +29,8 @@
 #pragma     data_alignment = 4 
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
 
+#include <rtthread.h>
+
 #include "usbd_cdc_vcp.h"
 #include "usb_conf.h"
 #include "usbd_cdc_core.h"
@@ -42,14 +44,11 @@
 //#include "semphr.h"
 //#include "queue.h"
 
-/* RT-Thread includes */
-#include <rtthread.h>
-#include <finsh.h>
-
-
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END ;
-//static xQueueHandle usbDataDelivery;
-//static struct rt_messagequeue mq;
+
+static  struct rt_messagequeue  mq;
+uint8_t mq_buff[128];
+//tatic xQueueHandle usbDataDelivery;
 
 LINE_CODING linecoding =
   {
@@ -224,12 +223,13 @@ static uint16_t VCP_DataRx (uint8_t* Buf, uint32_t Len)
 //			usb_rx_ptr_in = 0;
 //	  } 
 //  }
-//	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	
+	//portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	for(int i=0; i<Len; i++)
 	{
 		uint8_t data = Buf[i];
-//		xQueueSendFromISR(usbDataDelivery, &data, &xHigherPriorityTaskWoken);
-		//rt_mq_send(&mq, &data, sizeof(data));
+		rt_mq_send(&mq, &data, sizeof(data));
+		//xQueueSendFromISR(usbDataDelivery, &data, &xHigherPriorityTaskWoken);
 	}
 	return USBD_OK;
 }
@@ -243,32 +243,27 @@ void usbd_cdc_vcp_Init(void)
 		&USBD_CDC_cb,
 		&USR_cb);
 	
+	rt_mq_init(&mq, "vcp_mq", mq_buff, sizeof(uint8_t), sizeof(mq_buff), RT_IPC_FLAG_FIFO);
 	//usbDataDelivery = xQueueCreate(128, sizeof(uint8_t));	/*队列 128个消息*/
-//	rt_err_t err;
-//	err = rt_mq_init(&mq, "usb_mq", usb_rx_buf, 1, 128, RT_IPC_FLAG_FIFO);
-//	if (err == RT_EOK)
-//		printf("create usb message!\r\n");
 }
 
-//FINSH_FUNCTION_EXPORT(usbd_cdc_vcp_Init, "usb init");
+bool usbGetDataWithTimout(uint8_t *c)
+{
+	if (rt_mq_recv(&mq, c, sizeof(*c), 1000 ) == RT_EOK)
+	//if (xQueueReceive(usbDataDelivery, c, 1000) == pdTRUE)	/*接收usbDataDelivery(1024个容量)消息*/
+	{
+		return true;
+	}
+	*c = 0;
+	return false;
+}
 
-//bool usbGetDataWithTimout(uint8_t *c)
-//{
-//	//if (xQueueReceive(usbDataDelivery, c, 1000) == pdTRUE)	/*接收usbDataDelivery(1024个容量)消息*/
-//	if(rt_mq_recv(&mq, c, sizeof(*c), 1000) ==  RT_EOK)
-//	{
-//		return true;
-//	}
-//	*c = 0;
-//	return false;
-//}
-
-//void usbsendData(uint8_t * data, uint16_t length)
-//{
-//	for(int i=0; i<length; i++)
-//	{
-//		VCP_DataTx(data[i]);
-//	}
-//}
+void usbsendData(uint8_t* data, uint16_t length)
+{
+	for(int i=0; i<length; i++)
+	{
+		VCP_DataTx(data[i]);
+	}
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

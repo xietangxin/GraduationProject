@@ -1,15 +1,17 @@
+#include <rtthread.h>
 #include <string.h>
 #include "radiolink.h"
 #include "config_param.h"
 #include "drv_led.h"
 #include "ledseq.h"
+
 #include "uart_syslink.h"
 
 /*FreeRtos includes*/
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "queue.h"
+//#include "FreeRTOS.h"
+//#include "task.h"
+//#include "semphr.h"
+//#include "queue.h"
 
 /* 无线通信驱动代码	*/
 

@@ -30,6 +30,7 @@
 #include "usb_bsp.h"
 #include "usbd_conf.h"
 
+
 #include "stm32f4xx.h"
 
 
@@ -37,27 +38,34 @@
 void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
+	
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_USB_OTG_FS_CLK_ENABLE();
 
-  __HAL_RCC_GPIOA_CLK_ENABLE();
+  //RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA , ENABLE);
 
    /* Configure SOF ID DM DP Pins */
-  GPIO_InitStructure.Pin = GPIO_PIN_11 | GPIO_PIN_12;
-  GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStructure.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStructure.Alternate = GPIO_AF10_OTG_FS;	//  ∏¥”√µΩUSB OTG FS
-  GPIO_InitStructure.Pull = GPIO_NOPULL ;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
-	rt_memset(&GPIO_InitStructure, sizeof(GPIO_InitStructure), 0);
-	GPIO_InitStructure.Pin = GPIO_PIN_9;
-	GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStructure.Pull = GPIO_NOPULL ;
+	GPIO_InitStructure.Pin = GPIO_PIN_11 | GPIO_PIN_12;
+	GPIO_InitStructure.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStructure.Pull = GPIO_NOPULL;
+	GPIO_InitStructure.Speed = GPIO_SPEED_HIGH;
+	GPIO_InitStructure.Alternate = GPIO_AF10_OTG_FS;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-	
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+//  GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-	__HAL_RCC_SYSCFG_CLK_ENABLE();
-	__HAL_RCC_USB_OTG_FS_CLK_ENABLE();
+//  // AF10
+//  GPIO_PinAFConfig(GPIOA,GPIO_PinSource11,GPIO_AF_OTG1_FS) ;
+//  GPIO_PinAFConfig(GPIOA,GPIO_PinSource12,GPIO_AF_OTG1_FS) ;
+
+//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+//  RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS, ENABLE) ;
+
 
 }
 /**
@@ -68,32 +76,36 @@ void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
 */
 void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
 {
+	
+	HAL_NVIC_SetPriority(OTG_FS_IRQn, 0, 3);
+	HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
+//  NVIC_InitTypeDef NVIC_InitStructure;
 
+//  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 //#ifdef USE_USB_OTG_HS
 //  NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_IRQn;
 //#else
 //  NVIC_InitStructure.NVIC_IRQChannel = OTG_FS_IRQn;
 //#endif
-	
-	HAL_NVIC_SetPriority(OTG_FS_IRQn, 5, 0);
-	HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
-	
-	
-#ifdef USB_OTG_HS_DEDICATED_EP1_ENABLED
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
-  NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_EP1_OUT_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_MID_PRI;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 10;
+//  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//  NVIC_Init(&NVIC_InitStructure);
+//#ifdef USB_OTG_HS_DEDICATED_EP1_ENABLED
+//  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+//  NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_EP1_OUT_IRQn;
+//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_MID_PRI;
+//  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//  NVIC_Init(&NVIC_InitStructure);
 
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
-  NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_EP1_IN_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_MID_PRI;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
-#endif
+//  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+//  NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_EP1_IN_IRQn;
+//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_MID_PRI;
+//  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//  NVIC_Init(&NVIC_InitStructure);
+//#endif
 }
 /**
 * @brief  USB_OTG_BSP_uDelay

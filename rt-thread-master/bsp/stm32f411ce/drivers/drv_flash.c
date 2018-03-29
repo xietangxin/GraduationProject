@@ -1,17 +1,6 @@
 #include "drv_flash.h"
 
-/********************************************************************************	 
- * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
- * ALIENTEK MiniFly
- * STM32内部FLASH读写 驱动代码	
- * 正点原子@ALIENTEK
- * 技术论坛:www.openedv.com
- * 创建日期:2017/5/2
- * 版本：V1.0
- * 版权所有，盗版必究。
- * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
- * All rights reserved
-********************************************************************************/
+/*STM32内部FLASH读写 驱动代码	*/
  
  
 //读取指定地址的半字(16位数据) 
@@ -27,18 +16,14 @@ uint32_t  STMFLASH_ReadWord(uint32_t faddr)
 //返回值:0~11,即addr所在的扇区
 uint16_t STMFLASH_GetFlashSector(uint32_t addr)
 {
-	if(addr<ADDR_FLASH_SECTOR_1)return FLASH_Sector_0;
-	else if(addr<ADDR_FLASH_SECTOR_2)return FLASH_Sector_1;
-	else if(addr<ADDR_FLASH_SECTOR_3)return FLASH_Sector_2;
-	else if(addr<ADDR_FLASH_SECTOR_4)return FLASH_Sector_3;
-	else if(addr<ADDR_FLASH_SECTOR_5)return FLASH_Sector_4;
-	else if(addr<ADDR_FLASH_SECTOR_6)return FLASH_Sector_5;
-	else if(addr<ADDR_FLASH_SECTOR_7)return FLASH_Sector_6;
-	else if(addr<ADDR_FLASH_SECTOR_8)return FLASH_Sector_7;
-	else if(addr<ADDR_FLASH_SECTOR_9)return FLASH_Sector_8;
-	else if(addr<ADDR_FLASH_SECTOR_10)return FLASH_Sector_9;
-	else if(addr<ADDR_FLASH_SECTOR_11)return FLASH_Sector_10; 
-	return FLASH_Sector_11;	
+	if(addr<ADDR_FLASH_SECTOR_1)return FLASH_SECTOR_0;
+	else if(addr<ADDR_FLASH_SECTOR_2)return FLASH_SECTOR_1;
+	else if(addr<ADDR_FLASH_SECTOR_3)return FLASH_SECTOR_2;
+	else if(addr<ADDR_FLASH_SECTOR_4)return FLASH_SECTOR_3;
+	else if(addr<ADDR_FLASH_SECTOR_5)return FLASH_SECTOR_4;
+	else if(addr<ADDR_FLASH_SECTOR_6)return FLASH_SECTOR_5;
+	else if(addr<ADDR_FLASH_SECTOR_7)return FLASH_SECTOR_6;
+	return FLASH_SECTOR_7;	
 }
 //从指定地址开始写入指定长度的数据
 //特别注意:因为STM32F4的扇区实在太大,没办法本地保存扇区数据,所以本函数

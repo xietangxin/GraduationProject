@@ -2,6 +2,8 @@
 #define __LED_H
 #include <stdbool.h>
 
+#include "stm32f4xx.h"
+
 #define LED_NUM 5
 
 typedef enum 

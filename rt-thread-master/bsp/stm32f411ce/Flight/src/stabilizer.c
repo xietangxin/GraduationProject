@@ -7,6 +7,8 @@
 #include "state_estimator.h"
 #include "power_control.h"
 #include "flip.h"
+#include "drv_led.h"
+#include "ledseq.h"
 
 #include <rtthread.h>
 ///*FreeRTOS相关头文件*/

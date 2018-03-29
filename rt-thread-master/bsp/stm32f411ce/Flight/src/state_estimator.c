@@ -63,7 +63,7 @@ static void stateEstimateVelocityZ(state_t *state, float dt)
 	state->velocity.z = selfState.velocityZ;
 }
 
-void stateEstimator(state_t *state, const sensorData_t *sensorData, const u32 tick)
+void stateEstimator(state_t *state, const sensorData_t *sensorData, const uint32_t tick)
 {
 	if (RATE_DO_EXECUTE(ATTITUDE_UPDATE_RATE, tick)) /* 500Hz 2ms update  */
 	{	  

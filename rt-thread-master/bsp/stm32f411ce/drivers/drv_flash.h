@@ -2,21 +2,11 @@
 #define __STMFLASH_H
 #include "stm32f4xx.h"   
 
-/********************************************************************************	 
- * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
- * ALIENTEK MiniFly
- * STM32内部FLASH读写 驱动代码	
- * 正点原子@ALIENTEK
- * 技术论坛:www.openedv.com
- * 创建日期:2017/5/2
- * 版本：V1.0
- * 版权所有，盗版必究。
- * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
- * All rights reserved
-********************************************************************************/
+/* STM32内部FLASH读写 驱动代码	*/
 
 //FLASH起始地址
-#define STM32_FLASH_BASE 0x08000000 	//STM32 FLASH的起始地址
+#define STM32_FLASH_BASE 	0x08000000 	//STM32 FLASH的起始地址
+#define	FLASH_WAITETIME		50000
  
 
 //FLASH 扇区的起始地址
@@ -34,18 +24,7 @@
 #define ADDR_FLASH_SECTOR_11    ((uint32_t)0x080E0000) 	//扇区11起始地址,128 Kbytes  
 
 
-#define FLASH_Sector_0     ((uint16_t)0x0000) /*!< Sector Number 0   */
-#define FLASH_Sector_1     ((uint16_t)0x0008) /*!< Sector Number 1   */
-#define FLASH_Sector_2     ((uint16_t)0x0010) /*!< Sector Number 2   */
-#define FLASH_Sector_3     ((uint16_t)0x0018) /*!< Sector Number 3   */
-#define FLASH_Sector_4     ((uint16_t)0x0020) /*!< Sector Number 4   */
-#define FLASH_Sector_5     ((uint16_t)0x0028) /*!< Sector Number 5   */
-#define FLASH_Sector_6     ((uint16_t)0x0030) /*!< Sector Number 6   */
-#define FLASH_Sector_7     ((uint16_t)0x0038) /*!< Sector Number 7   */
-#define FLASH_Sector_8     ((uint16_t)0x0040) /*!< Sector Number 8   */
-#define FLASH_Sector_9     ((uint16_t)0x0048) /*!< Sector Number 9   */
-#define FLASH_Sector_10    ((uint16_t)0x0050) /*!< Sector Number 10  */
-#define FLASH_Sector_11    ((uint16_t)0x0058) /*!< Sector Number 11  */
+
 
 
 
