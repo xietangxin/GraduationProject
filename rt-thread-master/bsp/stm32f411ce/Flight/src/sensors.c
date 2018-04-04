@@ -4,7 +4,7 @@
 
 #include "config_param.h"
 #include "ledseq.h"
-#include "mpu6500.h"
+#include "drv_mpu9250.h"
 #include "sensors.h"
 #include "ak8963.h"
 #include "bmp280.h"

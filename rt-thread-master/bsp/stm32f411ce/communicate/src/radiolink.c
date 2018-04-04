@@ -175,7 +175,7 @@ static void atkpPacketDispatch(atkp_t *rxPacket)
 bool radiolinkSendPacket(const atkp_t *p)
 {
 	RT_ASSERT(p != RT_NULL);
-	RT_ASSERT(p->dataLen <= ATKP_MAX_DATA_SIZE);\
+	RT_ASSERT(p->dataLen <= ATKP_MAX_DATA_SIZE);
 	return rt_mq_send(&mq, p, sizeof(*p));
 	//return xQueueSend(txQueue, p, 0);
 }

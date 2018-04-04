@@ -429,6 +429,11 @@
               <FileType>1</FileType>
               <FilePath>.\drivers\drv_flash.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_mpu9250.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\drv_mpu9250.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
