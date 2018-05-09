@@ -395,11 +395,6 @@
               <FilePath>drivers\board.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f4xx_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>drivers\stm32f4xx_it.c</FilePath>
-            </File>
-            <File>
               <FileName>drv_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>drivers\drv_gpio.c</FilePath>
