@@ -5,7 +5,7 @@
 #include "drv_led.h"
 #include "ledseq.h"
 
-#include "uart_syslink.h"
+//#include "uart_syslink.h"
 
 /*FreeRtos includes*/
 //#include "FreeRTOS.h"

@@ -49,10 +49,10 @@ static void drv_i2c_gpio_init()
     I2C_SCL_PORT_CLK_ENABLE();
     I2C_SDA_PORT_CLK_ENABLE();
 
-    GPIO_Initure.Pin = I2C_SCL_PIN;
-    GPIO_Initure.Mode = GPIO_MODE_OUTPUT_OD;
-    GPIO_Initure.Pull = GPIO_PULLUP;
-    GPIO_Initure.Speed = GPIO_SPEED_HIGH;
+    GPIO_Initure.Pin = I2C_SCL_PIN;  /*时钟引脚*/
+    GPIO_Initure.Mode = GPIO_MODE_OUTPUT_OD; /*开漏输出模式*/
+    GPIO_Initure.Pull = GPIO_PULLUP; /*上拉*/
+    GPIO_Initure.Speed = GPIO_SPEED_HIGH; /*100Mhz*/
     HAL_GPIO_Init(I2C_SCL_PORT, &GPIO_Initure);
 
     GPIO_Initure.Pin = I2C_SDA_PIN;

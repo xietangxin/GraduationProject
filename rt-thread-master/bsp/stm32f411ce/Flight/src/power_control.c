@@ -1,4 +1,3 @@
-
 #include "power_control.h"
 #include "motors.h"
 

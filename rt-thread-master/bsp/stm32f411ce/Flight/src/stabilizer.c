@@ -11,11 +11,9 @@
 #include "ledseq.h"
 
 #include <rtthread.h>
-///*FreeRTOS相关头文件*/
-//#include "FreeRTOS.h"
-//#include "task.h"
 
-/* s四轴自稳控制代码	*/
+
+/* 四轴自稳控制代码	*/
 
 static bool isInit;
 static bool isCalibPass;

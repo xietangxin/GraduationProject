@@ -1,15 +1,17 @@
+#include "position_pid.h"
+
 #include <math.h>
 #include "pid.h"
 #include "commander.h"
 #include "config_param.h"
-#include "position_pid.h"
 #include "remoter_ctrl.h"
+
 /* 位置PID控制代码	*/
 
 #define THRUST_SCALE	(100.0f)
 #define START_HIRHT		(0.0f)
-#define THRUSTBASE_HIGH	(40000.f)
-#define THRUSTBASE_LOW	(28000.f)
+#define THRUSTBASE_HIGH	(40000.f)	/* 最大油门值 */
+#define THRUSTBASE_LOW	(28000.f)	/* 最小油门值 */
 
 typedef struct  
 {
@@ -28,7 +30,7 @@ typedef struct
 
 static posPid_t posPid;
 
-/*基础油门值限制*/
+/* 控制基础油门值 */
 static float limitThrustBase(float input)
 {
 	if(input > THRUSTBASE_HIGH)
@@ -74,6 +76,7 @@ static void detecWeight(float thrust, float newThrust, float velocity)
 	static float sum = 0.0;
 	static float detaThrust;
 	
+	/* fabs取绝对值 */
 	if(fabs(velocity) < 0.02f && thrust > 25000.f)
 	{
 		sum += newThrust;

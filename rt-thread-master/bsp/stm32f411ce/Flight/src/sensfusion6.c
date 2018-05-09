@@ -3,7 +3,7 @@
 #include "sensfusion6.h"
 
 
-/* 6轴数据融合代码	*/
+/* 6轴数据融合代码 */
 
 float Kp = 0.4f;		/*比例增益*/
 float Ki = 0.001f;		/*积分增益*/
@@ -11,28 +11,37 @@ float exInt = 0.0f;
 float eyInt = 0.0f;
 float ezInt = 0.0f;		/*积分误差累计*/
 
-static float q0 = 1.0f;	/*四元数*/
+/* 四元数 */
+static float q0 = 1.0f;	
 static float q1 = 0.0f;
 static float q2 = 0.0f;
 static float q3 = 0.0f;	
 
-static float baseZacc = 1.0;		/*静态Z轴加速度*/
+/* 静态Z轴加速度 */
+static float baseZacc = 1.0;		
 static bool isCalibrated = false;
 
+/* 快速开平方求倒 */
+static float invSqrt(float x);	
 
-static float invSqrt(float x);	/*快速开平方求倒*/
-
-void imuUpdate(Axis3f acc, Axis3f gyro, state_t *state , float dt)	/*数据融合 互补滤波*/
+/* 数据融合 互补滤波 */
+void imuUpdate(Axis3f acc, Axis3f gyro, state_t *state , float dt)	
 {
 	float normalise;
 	float ex, ey, ez;
-	float q0s, q1s, q2s, q3s;	/*四元数的平方*/
-	static float R11,R21;		/*矩阵(1,1),(2,1)项*/
-	static float vecxZ, vecyZ, veczZ;	/*机体坐标系下的Z方向向量*/
+	/* 四元数的平方 */
+	float q0s, q1s, q2s, q3s;
+	
+	/* 矩阵(1,1),(2,1)项 */
+	static float R11,R21;
+	
+	/* 机体坐标系下的Z方向向量 */	
+	static float vecxZ, vecyZ, veczZ;	
 	float halfT =0.5f * dt;
 	Axis3f tempacc =acc;
 
-	gyro.x = gyro.x * DEG2RAD;	/* 度转弧度 */
+	/* 度转弧度 */
+	gyro.x = gyro.x * DEG2RAD;	
 	gyro.y = gyro.y * DEG2RAD;
 	gyro.z = gyro.z * DEG2RAD;
 
@@ -60,6 +69,7 @@ void imuUpdate(Axis3f acc, Axis3f gyro, state_t *state , float dt)	/*数据融合 互
 		gyro.y += Kp * ey + eyInt;
 		gyro.z += Kp * ez + ezInt;
 	}
+	
 	/* 一阶近似算法，四元数运动学方程的离散化形式和积分 */
 	float q0Last = q0;
 	float q1Last = q1;
@@ -82,13 +92,16 @@ void imuUpdate(Axis3f acc, Axis3f gyro, state_t *state , float dt)	/*数据融合 互
 	q2s = q2 * q2;
 	q3s = q3 * q3;
 	
-	R11 = q0s + q1s - q2s - q3s;	/*矩阵(1,1)项*/
-	R21 = 2 * (q1 * q2 + q0 * q3);	/*矩阵(2,1)项*/
+	/* 矩阵(1,1)项，矩阵（2,1）项 */
+	R11 = q0s + q1s - q2s - q3s;	
+	R21 = 2 * (q1 * q2 + q0 * q3);	
 
-	/*机体坐标系下的Z方向向量*/
-	vecxZ = 2 * (q1 * q3 - q0 * q2);/*矩阵(3,1)项*/
-	vecyZ = 2 * (q0 * q1 + q2 * q3);/*矩阵(3,2)项*/
-	veczZ = q0s - q1s - q2s + q3s;	/*矩阵(3,3)项*/
+	/*机体坐标系下的Z方向向量
+	 * 矩阵（3,1）项，矩阵（3,2）项，举证（3，3）项
+	 */
+	vecxZ = 2 * (q1 * q3 - q0 * q2);
+	vecyZ = 2 * (q0 * q1 + q2 * q3);
+	veczZ = q0s - q1s - q2s + q3s;	
 	
 	if (vecxZ>1) vecxZ=1;
 	if (vecxZ<-1) vecxZ=-1;
@@ -106,9 +119,10 @@ void imuUpdate(Axis3f acc, Axis3f gyro, state_t *state , float dt)	/*数据融合 互
 	state->acc.z= tempacc.x* vecxZ + tempacc.y * vecyZ + tempacc.z * veczZ - baseZacc;	/*Z轴加速度(去除重力加速度)*/
 }
 
-// Fast inverse square-root
-// See: http://en.wikipedia.org/wiki/Fast_inverse_square_root
-float invSqrt(float x)	/*快速开平方求倒*/
+/* 快速开平方求倒
+ * See: http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ */
+float invSqrt(float x)	
 {
 	float halfx = 0.5f * x;
 	float y = x;

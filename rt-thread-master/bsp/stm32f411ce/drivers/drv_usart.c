@@ -329,12 +329,12 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     PA15     ------> USART1_TX
     PB3     ------> USART1_RX 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_15;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_InitStruct.Pin = GPIO_PIN_15; /* USART 发送引脚*/
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP; /*复用推挽输出*/
+    GPIO_InitStruct.Pull = GPIO_PULLUP; /*上拉*/
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH; /*50MHz*/
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART1; /*引脚复用为USART1*/
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); /*初始化*/
 		
 		GPIO_InitStruct.Pin = GPIO_PIN_3;
 		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -355,11 +355,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 		
-		// 设置UART2中断
+		/*设置UART2中断优先级，使能USART2中断*/
 		HAL_NVIC_SetPriority(USART2_IRQn, 7, 0);
 		HAL_NVIC_EnableIRQ(USART2_IRQn);
 		
-		/* 串口接受数据寄存器非空中断*/
+		/*串口接受数据寄存器非空中断*/
 		__HAL_UART_ENABLE_IT(uartHandle, UART_IT_RXNE);
 		
 		rt_memset(&GPIO_InitStruct, 0, sizeof(GPIO_InitStruct));
@@ -374,19 +374,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 		HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
 		HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		
-		
+			
   }
   else if(uartHandle->Instance==USART6)
   {

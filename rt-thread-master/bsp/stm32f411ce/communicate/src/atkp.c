@@ -4,8 +4,6 @@
 #include <stdbool.h>
 #include "atkp.h"
 #include "radiolink.h"
-#include "usblink.h"
-#include "usbd_usr.h"
 #include "stabilizer.h"
 #include "motors.h"
 #include "commander.h"

@@ -3,18 +3,7 @@
 #include "sensors.h"
 #include "attitude_pid.h"
 
-/********************************************************************************	 
- * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
- * ALIENTEK MiniFly
- * 姿态PID控制代码	
- * 正点原子@ALIENTEK
- * 技术论坛:www.openedv.com
- * 创建日期:2017/5/2
- * 版本：V1.0
- * 版权所有，盗版必究。
- * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
- * All rights reserved
-********************************************************************************/
+/* 姿态PID控制代码 */
 
 
 PidObject pidAngleRoll;
@@ -24,7 +13,7 @@ PidObject pidRateRoll;
 PidObject pidRatePitch;
 PidObject pidRateYaw;
 
-static inline int16_t pidOutLimit(float in)
+static inline int16_t limitPid(float in)
 {
 	if (in > INT16_MAX)
 		return INT16_MAX;
@@ -56,14 +45,16 @@ bool attitudeControlTest()
 	return true;
 }
 
-void attitudeRatePID(Axis3f *actualRate,attitude_t *desiredRate,control_t *output)	/* 角速度环PID */
+/* 角速度环PID */
+void attitudeRatePID(Axis3f *actualRate,attitude_t *desiredRate,control_t *output)	
 {
-	output->roll = pidOutLimit(pidUpdate(&pidRateRoll, desiredRate->roll - actualRate->x));
-	output->pitch = pidOutLimit(pidUpdate(&pidRatePitch, desiredRate->pitch - actualRate->y));
-	output->yaw = pidOutLimit(pidUpdate(&pidRateYaw, desiredRate->yaw - actualRate->z));
+	output->roll = limitPid(pidUpdate(&pidRateRoll, desiredRate->roll - actualRate->x));
+	output->pitch = limitPid(pidUpdate(&pidRatePitch, desiredRate->pitch - actualRate->y));
+	output->yaw = limitPid(pidUpdate(&pidRateYaw, desiredRate->yaw - actualRate->z));
 }
 
-void attitudeAnglePID(attitude_t *actualAngle,attitude_t *desiredAngle,attitude_t *outDesiredRate)	/* 角度环PID */
+/* 角度环PID */
+void attitudeAnglePID(attitude_t *actualAngle,attitude_t *desiredAngle,attitude_t *outDesiredRate)	
 {
 	outDesiredRate->roll = pidUpdate(&pidAngleRoll, desiredAngle->roll - actualAngle->roll);
 	outDesiredRate->pitch = pidUpdate(&pidAnglePitch, desiredAngle->pitch - actualAngle->pitch);
@@ -76,8 +67,8 @@ void attitudeAnglePID(attitude_t *actualAngle,attitude_t *desiredAngle,attitude_
 	outDesiredRate->yaw = pidUpdate(&pidAngleYaw, yawError);
 }
 
-
-void attitudeResetAllPID(void)	/*复位PID*/
+/* 复位PID */
+void attitudeResetAllPID(void)	
 {
 	pidReset(&pidAngleRoll);
 	pidReset(&pidAnglePitch);
@@ -87,6 +78,7 @@ void attitudeResetAllPID(void)	/*复位PID*/
 	pidReset(&pidRateYaw);
 }
 
+/* 将姿态PID写入到配置文件中 */
 void attitudePIDwriteToConfigParam(void)
 {
 	configParam.pidAngle.roll.kp = pidAngleRoll.kp;

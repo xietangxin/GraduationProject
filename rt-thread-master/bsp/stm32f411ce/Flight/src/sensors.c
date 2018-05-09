@@ -6,13 +6,10 @@
 #include "ledseq.h"
 #include "drv_mpu9250.h"
 #include "sensors.h"
-#include "ak8963.h"
 #include "bmp280.h"
 #include "filter.h"
 
-///*FreeRTOS相关头文件*/
-//#include "FreeRTOS.h"
-//#include "task.h"
+
 
 /* 传感器控制代码	 */
 
@@ -91,11 +88,13 @@ bool sensorsReadAcc(Axis3f *acc)
 {
 	return (pdTRUE == xQueueReceive(accelerometerDataQueue, acc, 0));
 }
-/*从队列读取磁力计数据*/
-bool sensorsReadMag(Axis3f *mag)
-{
-	return (pdTRUE == xQueueReceive(magnetometerDataQueue, mag, 0));
-}
+
+///*从队列读取磁力计数据*/
+//bool sensorsReadMag(Axis3f *mag)
+//{
+//	return (pdTRUE == xQueueReceive(magnetometerDataQueue, mag, 0));
+//}
+
 /*从队列读取气压数据*/
 bool sensorsReadBaro(baro_t *baro)
 {
@@ -110,10 +109,12 @@ static void sensorsInterruptInit(void)
 	
 	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_InitStruct.Pin = GPIO_PIN_4;
+	/* 外部中断，上升沿触发 */
 	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	
+	/* 配置中断优先级，使能中断 */
 	HAL_NVIC_SetPriority(EXTI4_IRQn, 2, 2);
 	HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 	
@@ -138,6 +139,10 @@ static void sensorsInterruptInit(void)
 //	portENABLE_INTERRUPTS(); // 开启中断
 }
 
+
+/* *********************************************
+ *  初始化传感器原件已经在驱动中完成了
+ */
 /* 传感器器件初始化 */
 void sensorsDeviceInit(void)
 {
@@ -211,12 +216,14 @@ void sensorsDeviceInit(void)
 	magnetometerDataQueue = xQueueCreate(1, sizeof(Axis3f));
 	barometerDataQueue = xQueueCreate(1, sizeof(baro_t));
 }
+
 /*传感器偏置初始化*/
 static void sensorsBiasObjInit(BiasObj* bias)
 {
 	bias->isBufferFilled = false;
 	bias->bufHead = bias->buffer;
 }
+
 /*传感器测试*/
 bool sensorsTest(void)
 {
@@ -296,6 +303,7 @@ void sensorsInit(void)
 	
 	isInit = true;
 }
+
 /*设置传感器从模式读取*/
 static void sensorsSetupSlaveRead(void)
 {

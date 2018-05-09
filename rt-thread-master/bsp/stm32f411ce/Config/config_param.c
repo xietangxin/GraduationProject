@@ -7,18 +7,12 @@
 
 #include <rtthread.h>
 
-/*FreeRTOS相关头文件*/
-//#include "FreeRTOS.h"
-//#include "task.h"
-//#include "semphr.h"
-//#include "queue.h"
-
 /* 配置参数驱动代码	*/
 
 
 
-
-#define VERSION 11	/*11 表示V1.1*/
+/* 11 表示V1.1 */
+#define VERSION 11	
 
 configParam_t configParam;
 
@@ -96,8 +90,6 @@ static uint32_t lenth = 0;
 static bool isInit = false;
 static bool isConfigParamOK = false;
 
-//static SemaphoreHandle_t  xSemaphore = NULL;
-
 
 static uint8_t configParamCksum(configParam_t* data)
 {
@@ -113,7 +105,8 @@ static uint8_t configParamCksum(configParam_t* data)
 	return cksum;
 }
 
-void configParamInit(void)	/*参数配置初始化*/
+/* 参数配置初始化 */
+void configParamInit(void)	
 {
 	if(isInit) return;
 	
@@ -149,7 +142,8 @@ void configParamInit(void)	/*参数配置初始化*/
 	
 	
 	// @todo 不知道这个信号量用来干什么的
-	//xSemaphore = xSemaphoreCreateBinary();
+	// 在降落之后释放信号量
+	// xSemaphore = xSemaphoreCreateBinary();
 	
 	isInit=true;
 }

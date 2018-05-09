@@ -4,10 +4,6 @@
 #include "config_param.h"
 #include "commander.h"
 
-/*FreeRTOS相关头文件*/
-//#include "FreeRTOS.h"
-//#include "task.h"
-
 /* 四轴空翻控制代码	*/
 
 #define FLIP_RATE			RATE_500_HZ
