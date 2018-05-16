@@ -1092,7 +1092,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Communicate</GroupName>
+          <GroupName>Communication</GroupName>
           <Files>
             <File>
               <FileName>atkp.c</FileName>
@@ -1198,6 +1198,11 @@
               <FileName>motors.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\HARDWARE\src\motors.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\src\app_uart.c</FilePath>
             </File>
           </Files>
         </Group>

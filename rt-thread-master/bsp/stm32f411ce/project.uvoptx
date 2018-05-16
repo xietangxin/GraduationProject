@@ -1617,7 +1617,7 @@
 
   <Group>
     <GroupName>DeviceDrivers</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1856,7 +1856,7 @@
   </Group>
 
   <Group>
-    <GroupName>Communicate</GroupName>
+    <GroupName>Communication</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -2098,6 +2098,18 @@
       <bDave2>0</bDave2>
       <PathWithFileName>.\HARDWARE\src\motors.c</PathWithFileName>
       <FilenameWithoutPath>motors.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>153</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\HARDWARE\src\app_uart.c</PathWithFileName>
+      <FilenameWithoutPath>app_uart.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

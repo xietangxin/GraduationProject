@@ -5,17 +5,13 @@
 
 #include "pm.h"
 #include "drv_led.h"
-#include "ledseq.h"
 #include "commander.h"
 #include "radiolink.h"
 #include "remoter_ctrl.h"
 #include "stabilizer.h"
 
 
-///*FreeRTOS相关头文件*/
-//#include "FreeRTOS.h"
-//#include "task.h"
-//#include "semphr.h"
+
 
 /* 电源管理驱动代码	*/
 
@@ -126,18 +122,16 @@ void pmTask(void *param)	/* 电源管理任务 */
 	uint32_t tickCount;
 
 	tickCount = rt_tick_get();
-	//tickCount = getSysTickCnt();
 	batteryLowTimeStamp = tickCount;
 
 	rt_thread_delay(500);
-	//vTaskDelay(500);
+
 
 	while(1)
 	{
 		rt_thread_delay(100);
 		tickCount = rt_tick_get();
-		//vTaskDelay(100);
-		//tickCount = getSysTickCnt();
+		
 
 		if (pmGetBatteryVoltage() > PM_BAT_LOW_VOLTAGE)
 		{
@@ -150,30 +144,17 @@ void pmTask(void *param)	/* 电源管理任务 */
 		{
 			switch (pmState)	/*电源状态切换*/
 			{
-				case charged:				
-					ledseqStop(CHG_LED, seq_charging);
-					ledseqRun(CHG_LED, seq_charged);
+				case charged:
+					rt_kprintf("charged!\r\n");
 					break;
 				case charging:
-					isLowpower = false;
-					ledseqStop(LOWBAT_LED, seq_lowbat);
-					if(getIsCalibPass())
-						ledseqRun(SYS_LED, seq_calibrated);
-					else
-						ledseqRun(SYS_LED, seq_alive);				
-					ledseqStop(CHG_LED, seq_charged);
-					ledseqRun(CHG_LED, seq_charging);
+					rt_kprintf("charging!\r\n");
 					break;
 				case lowPower:
-					isLowpower = true;
-					ledseqStop(CHG_LED, seq_charging);
-					ledseqStop(SYS_LED, seq_alive);
-					ledseqStop(SYS_LED, seq_calibrated);
-					ledseqRun(LOWBAT_LED, seq_lowbat);
+					rt_kprintf("lowPower!\r\n");
 					break;
 				case battery:
-					ledseqStop(CHG_LED, seq_charging);
-					ledseqRun(CHG_LED, seq_charged);
+					rt_kprintf("battery!\r\n");
 					break;
 				default:
 					break;

@@ -17,14 +17,10 @@
 #include "power_control.h"
 #include "remoter_ctrl.h"
 
-///*FreeRTOS相关头文件*/
-//#include "FreeRTOS.h"
-//#include "task.h"
-//#include "semphr.h"
-//#include "queue.h"
 
-/* 无线通信驱动代码	
- * 说明：此文件程序基于于匿名科创地面站V4.34通信协议下位机示例代码修改。
+
+/* 上位机通信代码
+ * 程序基于于匿名科创地面站V4.34通信协议下位机示例代码修改。
 ********************************************************************************/
 
 //数据拆分宏定义
@@ -58,6 +54,7 @@ bool flyable = false;
 static joystickFlyui16_t rcdata;
 
 //static xQueueHandle rxQueue;
+
 static struct rt_messagequeue rxMq;
 static atkp_t mqBuff[ATKP_RX_QUEUE_SIZE];
 
@@ -72,10 +69,12 @@ static void atkpSendPacket(atkp_t *p)
 {
 	radiolinkSendPacket(p);  // 无线发送数据包  @todo
 	
-	if(getusbConnectState()) // 测试四轴USB是否和上位机连接
-	{
-		usblinkSendPacket(p); // 连接到上位机 发送数据
-	}	
+	
+//	if(getusbConnectState()) // 测试四轴USB是否和上位机连接
+//	{
+//		usblinkSendPacket(p); // 连接到上位机 发送数据
+//	}	
+	
 }
 
 /***************************发送至匿名上位机指令******************************/
@@ -366,6 +365,7 @@ static uint8_t atkpCheckSum(atkp_t *packet)
 	return sum;
 }
 
+/* 处理上位机下发的调试信息 */
 static void atkpReceiveAnl(atkp_t *anlPacket)
 {
 	if(anlPacket->msgID	== DOWN_COMMAND)
@@ -503,6 +503,7 @@ static void atkpReceiveAnl(atkp_t *anlPacket)
 	}
 } 
 
+// 发送数据给上位机 
 void atkpTxTask(void *param)
 {
 	sendMsgACK();

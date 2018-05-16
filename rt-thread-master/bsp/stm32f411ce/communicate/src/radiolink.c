@@ -5,13 +5,6 @@
 #include "drv_led.h"
 #include "ledseq.h"
 
-//#include "uart_syslink.h"
-
-/*FreeRtos includes*/
-//#include "FreeRTOS.h"
-//#include "task.h"
-//#include "semphr.h"
-//#include "queue.h"
 
 /* 无线通信驱动代码	*/
 
@@ -29,20 +22,23 @@ static enum
 static bool isInit;
 static atkp_t txPacket;
 static atkp_t rxPacket;
-//static xQueueHandle  txQueue;
-static rt_messagequeue mq;
+
+
+static struct rt_messagequeue mq;
+
 char mq_buf[sizeof(atkp_t) * RADIOLINK_TX_QUEUE_SIZE];
 
 static void atkpPacketDispatch(atkp_t *rxPacket);
 
 //radiolink接收ATKPPacket任务
+
 void radiolinkTask(void *param)
 {
 	rxState = waitForStartByte1;
 	
-	u8 c;
-	u8 dataIndex = 0;
-	u8 cksum = 0;
+	rt_uint8_t c;
+	rt_uint8_t dataIndex = 0;
+	rt_uint8_t cksum = 0;
 
 	while(1)
 	{
